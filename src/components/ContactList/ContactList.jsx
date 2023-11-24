@@ -3,10 +3,11 @@ import React from 'react';
 import Contact from '../Contact/Contact';
 import css from './ContactList.module.css'; 
 import { nanoid } from '@reduxjs/toolkit'; 
+import { selectContacts, selectFilter } from '../../redux/selectors';   
 
 export default function ContactList() {
-  const contacts = useSelector(state => state.contacts.contacts);
-  const filter = useSelector(state => state.filter);
+  const contacts = useSelector(selectContacts); 
+  const filter = useSelector(selectFilter);
   console.log(filter);
 
   let arrContacts = contacts;

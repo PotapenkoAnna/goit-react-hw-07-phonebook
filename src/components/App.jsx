@@ -2,7 +2,7 @@ import React from 'react';
 import css from './App.module.css';
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList'; 
-import Filter from './Filter/Filter';   
+import Filter from './Filter/Filter';    
 
 export default function App() {
   return (
