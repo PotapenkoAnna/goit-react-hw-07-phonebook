@@ -13,6 +13,6 @@ export default function Filter() {
         type="text"
         onInput={event => dispatch(setFilter(event.target.value.toLowerCase()))} 
       />
-    </div> 
+    </div>  
   );
 }  

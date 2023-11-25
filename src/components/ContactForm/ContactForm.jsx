@@ -1,42 +1,39 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from '../../redux/contactsSlice';
-import { nanoid } from 'nanoid';
 import css from './ContactForm.module.css'; 
-import { selectContacts } from '../../redux/selectors'; 
-   
+import { addContact } from '../../redux/operations';
+
 export default function ContactForm() {
-  const dispatch = useDispatch(); 
-  const contacts = useSelector(selectContacts);
-  console.log(contacts);
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts.items);
+
   const handleSubmit = event => {
     event.preventDefault();
+
+    const newUser = {
+      name: event.target.elements.name.value,
+      phone: event.target.elements.phone.value,
+    };
+
     const hasContact = contacts.some(
       contact => contact.name === event.target.elements.name.value
     );
     if (hasContact) {
       alert(`${hasContact} is already in contacts`);
+      event.target.reset();
       return;
     }
-    dispatch(
-      addContact({
-        id: nanoid(),
-        name: event.target.elements.name.value,
-        number: event.target.elements.number.value,
-      })
-    );
-    event.currentTarget.reset();
-  };
+    dispatch(addContact(newUser));
+    event.target.reset();
+  }; 
 
-
- 
     return (
-      <form className={css.form} onSubmit={handleSubmit}>  
+      <form className={css.form} onSubmit={handleSubmit}>   
         <label className={css.formLabel}>Name </label>
         <input
           className={css.formInput}
           type="text"
           name="name"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$" 
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
           placeholder="Enter name"
@@ -46,8 +43,8 @@ export default function ContactForm() {
         <input
           className={css.formInput}
           type="tel"
-          name="number"
-          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+          name="phone" 
+          pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}" 
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
           placeholder="Enter phone number" 
